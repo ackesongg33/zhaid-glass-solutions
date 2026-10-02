@@ -58,8 +58,8 @@ export default function Hero({ onQuoteClick }: HeroProps) {
       </div>
 
       <div className="relative mx-auto flex min-h-0 max-w-7xl flex-col justify-center px-4 pt-20 pb-20 sm:min-h-screen sm:px-6 sm:pt-28 sm:pb-32">
-        <div className="max-w-3xl">
-          <span className="inline-flex max-w-full items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[11px] font-medium text-white backdrop-blur-md sm:px-4 sm:text-xs animate-fade-in">
+        <div className="w-full max-w-3xl text-center sm:text-left">
+          <span className="inline-flex max-w-full items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[11px] leading-tight font-medium text-white backdrop-blur-md sm:justify-start sm:px-4 sm:text-xs animate-fade-in">
             <Sparkles className="h-3.5 w-3.5 text-sky-300" />
             {company.experience} años transformando espacios con vidrio y aluminio
           </span>
@@ -68,11 +68,11 @@ export default function Hero({ onQuoteClick }: HeroProps) {
             {company.name}
           </h1>
 
-          <p className="mt-4 max-w-xl text-sm leading-6 text-white/80 sm:mt-5 sm:text-lg animate-fade-up" style={{ animationDelay: '0.1s' }}>
+          <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-white/80 sm:mx-0 sm:mt-5 sm:text-lg animate-fade-up" style={{ animationDelay: '0.1s' }}>
             {company.description}
           </p>
 
-          <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap animate-fade-up" style={{ animationDelay: '0.2s' }}>
+          <div className="mx-auto mt-6 flex w-full max-w-md flex-col gap-3 sm:mx-0 sm:mt-8 sm:max-w-none sm:flex-row sm:flex-wrap animate-fade-up" style={{ animationDelay: '0.2s' }}>
             <button onClick={onQuoteClick} className="btn-primary w-full sm:w-auto">
               Solicitar Cotización <ArrowRight className="h-4 w-4" />
             </button>
@@ -94,7 +94,7 @@ export default function Hero({ onQuoteClick }: HeroProps) {
         </div>
       </div>
 
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-float">
+      <div className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 animate-float sm:block">
         <div className="flex h-10 w-6 items-start justify-center rounded-full border-2 border-white/40 p-1.5">
           <span className="h-2 w-1 rounded-full bg-white/70" />
         </div>
