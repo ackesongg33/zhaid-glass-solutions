@@ -45,46 +45,49 @@ export default function Hero({ onQuoteClick }: HeroProps) {
   return (
     <section id="inicio" className="relative min-h-screen overflow-hidden">
       <div className="absolute inset-0">
-        <img
-         src="/images/foto-portada.png"
-         alt="Proyecto Zhaid Glass Solutions"
-         className="h-full w-full object-cover"
-        />
+        <picture>
+          <source media="(max-width: 639px)" srcSet="/images/products/portada-movil.png" />
+          <img
+           src="/images/foto-portada.png"
+           alt="Proyecto Zhaid Glass Solutions"
+           className="h-full w-full object-contain object-center sm:object-cover sm:object-center"
+          />
+        </picture>
         <div className="absolute inset-0 bg-black/35" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent" />
       </div>
 
-      <div className="relative mx-auto flex min-h-screen max-w-7xl flex-col justify-center px-4 pt-28 pb-32 sm:px-6">
+      <div className="relative mx-auto flex min-h-0 max-w-7xl flex-col justify-center px-4 pt-20 pb-20 sm:min-h-screen sm:px-6 sm:pt-28 sm:pb-32">
         <div className="max-w-3xl">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-medium text-white backdrop-blur-md animate-fade-in">
+          <span className="inline-flex max-w-full items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[11px] font-medium text-white backdrop-blur-md sm:px-4 sm:text-xs animate-fade-in">
             <Sparkles className="h-3.5 w-3.5 text-sky-300" />
             {company.experience} años transformando espacios con vidrio y aluminio
           </span>
 
-          <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.1] tracking-tight text-white sm:text-6xl lg:text-7xl animate-fade-up">
+          <h1 className="mt-4 font-display text-3xl font-extrabold leading-[1.1] tracking-tight text-white sm:mt-6 sm:text-6xl lg:text-7xl animate-fade-up">
             {company.name}
           </h1>
 
-          <p className="mt-5 max-w-xl text-base text-white/80 sm:text-lg animate-fade-up" style={{ animationDelay: '0.1s' }}>
+          <p className="mt-4 max-w-xl text-sm leading-6 text-white/80 sm:mt-5 sm:text-lg animate-fade-up" style={{ animationDelay: '0.1s' }}>
             {company.description}
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3 animate-fade-up" style={{ animationDelay: '0.2s' }}>
-            <button onClick={onQuoteClick} className="btn-primary">
+          <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap animate-fade-up" style={{ animationDelay: '0.2s' }}>
+            <button onClick={onQuoteClick} className="btn-primary w-full sm:w-auto">
               Solicitar Cotización <ArrowRight className="h-4 w-4" />
             </button>
-            <a href="#productos" className="btn-ghost">
+            <a href="#productos" className="btn-ghost w-full sm:w-auto">
               Ver Productos
             </a>
           </div>
 
-          <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-4 max-w-2xl animate-fade-up" style={{ animationDelay: '0.3s' }}>
+          <div className="mt-10 grid max-w-2xl grid-cols-2 gap-2 sm:mt-14 sm:grid-cols-4 sm:gap-4 animate-fade-up" style={{ animationDelay: '0.3s' }}>
             {stats.map((s) => (
-              <div key={s.label} className="glass-dark rounded-2xl p-4 text-center">
-                <p className="font-display text-2xl font-extrabold text-white sm:text-3xl">
+              <div key={s.label} className="glass-dark rounded-2xl p-3 text-center sm:p-4">
+                <p className="font-display text-xl font-extrabold text-white sm:text-3xl">
                   <AnimatedCounter value={s.value} suffix={s.suffix} />
                 </p>
-                <p className="mt-1 text-xs text-white/70">{s.label}</p>
+                <p className="mt-1 text-[11px] text-white/70 sm:text-xs">{s.label}</p>
               </div>
             ))}
           </div>

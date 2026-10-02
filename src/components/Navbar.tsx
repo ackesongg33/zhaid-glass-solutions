@@ -38,13 +38,13 @@ export default function Navbar({ onQuoteClick }: NavbarProps) {
       }`}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
-        <a href="#inicio" className="flex items-center gap-2.5">
+        <a href="#inicio" className="flex min-w-0 items-center gap-2.5">
           <img
            src={company.logo}
            alt={company.name}
-           className="h-12 w-32 object-contain bg-white rounded-lg shadow-lg"
+           className="h-10 w-24 object-contain rounded-lg bg-white shadow-lg sm:h-12 sm:w-32"
 />
-          <span className={`font-display text-lg font-extrabold tracking-tight transition-colors ${scrolled ? 'text-ink-900' : 'text-white'}`}>
+          <span className={`hidden font-display text-lg font-extrabold tracking-tight transition-colors sm:inline ${scrolled ? 'text-ink-900' : 'text-white'}`}>
             {company.name}
           </span>
         </a>
