@@ -1,5 +1,6 @@
 import { getWhatsAppLink } from '@/data/contact';
 import { MessageCircle } from 'lucide-react';
+import { FaWhatsapp } from 'react-icons/fa';
 
 type AiDraft = {
   context?: Record<string, string>;
