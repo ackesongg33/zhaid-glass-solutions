@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { company } from '@/data/company';
-import { contact, getWhatsAppLink } from '@/data/contact';
+import { getWhatsAppLink } from '@/data/contact';
 import { MessageCircle, Menu, X } from 'lucide-react';
 
 interface NavbarProps {
@@ -19,6 +19,8 @@ const links = [
 ];
 
 export default function Navbar({ onQuoteClick }: NavbarProps) {
+  void onQuoteClick;
+
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 

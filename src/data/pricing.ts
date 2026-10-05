@@ -62,6 +62,8 @@ export const glassTypes: GlassTypeInfo[] = [
   },
 ];
 
+export type GlassType = (typeof glassTypes)[number]['name'];
+
 export const frameTypes: FrameType[] = [
   {
     id: 'aluminio',
@@ -78,14 +80,14 @@ export const frameTypes: FrameType[] = [
 ];
 
 export const priceTable: PriceRow[] = [
-  { product: 'Vidrio Templado', thickness: '6mm', pricePerM2: 180, installationIncluded: false },
-  { product: 'Vidrio Templado', thickness: '10mm', pricePerM2: 220, installationIncluded: false },
-  { product: 'Vidrio Laminado', thickness: '6.38mm', pricePerM2: 240, installationIncluded: false },
-  { product: 'Vidrio Flotado', thickness: '5mm', pricePerM2: 120, installationIncluded: false },
-  { product: 'Vidrio Esmerilado', thickness: '6mm', pricePerM2: 160, installationIncluded: false },
+  { product: 'Vidrio Templado', thickness: '6mm', pricePerM2: 180, installationIncluded: true },
+  { product: 'Vidrio Templado', thickness: '10mm', pricePerM2: 220, installationIncluded: true },
+  { product: 'Vidrio Laminado', thickness: '6.38mm', pricePerM2: 240, installationIncluded: true },
+  { product: 'Vidrio Flotado', thickness: '5mm', pricePerM2: 120, installationIncluded: true },
+  { product: 'Vidrio Esmerilado', thickness: '6mm', pricePerM2: 160, installationIncluded: true },
   { product: 'Vidrio Reflectivo', thickness: '8mm', pricePerM2: 260, installationIncluded: true },
   { product: 'Vidrio Insulado', thickness: '4+12+4', pricePerM2: 310, installationIncluded: true },
-  { product: 'Espejo', thickness: '5mm', pricePerM2: 140, installationIncluded: false },
+  { product: 'Espejo', thickness: '5mm', pricePerM2: 140, installationIncluded: true },
   { product: 'Mampara de Baño', thickness: '8mm', pricePerM2: 320, installationIncluded: true },
   { product: 'Puerta de Vidrio', thickness: '10mm', pricePerM2: 380, installationIncluded: true },
 ];
@@ -106,7 +108,7 @@ export interface WindowSystem {
   id: string;
   name: string;
   category: string;
-  unit: 'pie' | 'm';
+  unit: 'pie' | 'm²';
   price: number;
 }
 
@@ -133,7 +135,7 @@ export const windowSystems: WindowSystem[] = [
     id: 'serie-62',
     name: 'Serie 62',
     category: 'Serie Nacional',
-    unit: 'm',
+    unit: 'm²',
     price: 500,
   },
 
@@ -141,7 +143,7 @@ export const windowSystems: WindowSystem[] = [
     id: 'serie-80',
     name: 'Serie 80',
     category: 'Serie Nacional',
-    unit: 'm',
+    unit: 'm²',
     price: 600,
   },
 
@@ -149,7 +151,7 @@ export const windowSystems: WindowSystem[] = [
     id: 'serie-35',
     name: 'Serie 35',
     category: 'Serie Nacional',
-    unit: 'm',
+    unit: 'm²',
     price: 480,
   },
 
@@ -157,7 +159,7 @@ export const windowSystems: WindowSystem[] = [
     id: 'serie-42',
     name: 'Serie 42',
     category: 'Serie Nacional',
-    unit: 'm',
+    unit: 'm²',
     price: 450,
   },
 
@@ -173,7 +175,7 @@ export const windowSystems: WindowSystem[] = [
     id: 'style-60',
     name: 'Style 60',
     category: 'Serie Española',
-    unit: 'm',
+    unit: 'm²',
     price: 550,
   },
 
@@ -181,7 +183,7 @@ export const windowSystems: WindowSystem[] = [
     id: 'style-70',
     name: 'Style 70',
     category: 'Serie Española',
-    unit: 'm',
+    unit: 'm²',
     price: 650,
   },
 
@@ -189,7 +191,7 @@ export const windowSystems: WindowSystem[] = [
     id: 'alfa-60',
     name: 'Alfa 60',
     category: 'Serie Española',
-    unit: 'm',
+    unit: 'm²',
     price: 900,
   },
 
@@ -197,7 +199,7 @@ export const windowSystems: WindowSystem[] = [
     id: 'alfa-65',
     name: 'Alfa 65',
     category: 'Serie Española',
-    unit: 'm',
+    unit: 'm²',
     price: 1400,
   },
 
@@ -205,7 +207,7 @@ export const windowSystems: WindowSystem[] = [
     id: 'vl-46',
     name: 'VL 46',
     category: 'Serie Española',
-    unit: 'm',
+    unit: 'm²',
     price: 580,
   },
 
@@ -213,7 +215,7 @@ export const windowSystems: WindowSystem[] = [
     id: 'ml-46',
     name: 'ML 46',
     category: 'Serie Española',
-    unit: 'm',
+    unit: 'm²',
     price: 640,
   },
 ];
@@ -226,22 +228,21 @@ export function calculateWindowPrice(
   width: number,
   height: number
 ) {
-
   const system = windowSystems.find(
     (item) => item.id === systemId
   );
 
   if (!system) return null;
 
-
   const area = width * height;
+  const perimeterM = 2 * (width + height);
 
-
+  // "pie" se maneja como pie lineal usando el perímetro exterior.
+  // Las demás series registradas se calculan por m².
   const total =
-    system.unit === 'm'
-      ? area * system.price
+    system.unit === 'pie'
+      ? (perimeterM / 0.3048) * system.price
       : area * system.price;
-
 
   return {
     name: system.name,
@@ -263,7 +264,7 @@ export function resolveFrameFromSystem(systemId: string): FrameType {
     id: system.id,
     name: system.name,
     image: '',
-    pricePerMeter: system.price,
+    pricePerMeter: system.unit === 'pie' ? system.price : undefined,
     colors: ['No especificado'],
     resistance: 'Resistencia basada en la serie recomendada',
   };

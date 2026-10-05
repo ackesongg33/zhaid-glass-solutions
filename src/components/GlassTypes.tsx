@@ -16,7 +16,8 @@ interface GlassTypesProps {
   onRequestQuote?: (glassName: string) => void;
 }
 
-export default function GlassTypes({ onRequestQuote: _onRequestQuote }: GlassTypesProps) {
+export default function GlassTypes({ onRequestQuote }: GlassTypesProps) {
+  void onRequestQuote;
   const whatsappMessageByType: Record<string, string> = {
     Templado: 'Hola Zhaid Glass Solutions 👋\n\nQuiero consultar por vidrio templado y me gustaría recibir información sobre disponibilidad, espesores y opciones recomendadas.',
     Laminado: 'Hola Zhaid Glass Solutions 👋\n\nQuiero consultar por vidrio laminado y me gustaría recibir información sobre disponibilidad, espesores y opciones recomendadas.',

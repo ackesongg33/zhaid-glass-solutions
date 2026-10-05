@@ -17,6 +17,27 @@ export interface CustomInput {
   systemId: string;
 }
 
+const flexibleDimensionToCm = (raw: string): number => {
+  const trimmed = raw.trim();
+  if (!trimmed) return 0;
+
+  const value = Number(trimmed.replace(',', '.'));
+  if (!Number.isFinite(value) || value <= 0) return 0;
+
+  // Formatos aceptados automáticamente:
+  // 100  -> 100 cm
+  // 1.00 -> 1.00 m -> 100 cm
+  // 300  -> 300 cm
+  // 3.00 -> 3.00 m -> 300 cm
+  // También aceptamos "3" como 3 m para que sea natural al escribir.
+  // Regla práctica para evitar ambigüedades peligrosas:
+  // hasta 10 se interpreta como metros; más de 10, como centímetros.
+  // Así 1.00 = 1 m, 3.00 = 3 m, 100 = 100 cm y 300 = 300 cm.
+  const shouldTreatAsMeters = value <= 10;
+
+  return shouldTreatAsMeters ? value * 100 : value;
+};
+
 export default function CustomMeasurements({ onSendToAI }: CustomMeasurementsProps) {
   const [input, setInput] = useState<CustomInput>({
     widthCm: 120,
@@ -27,6 +48,21 @@ export default function CustomMeasurements({ onSendToAI }: CustomMeasurementsPro
     quantity: 1,
     systemId: 'serie-25',
   });
+  const [widthValue, setWidthValue] = useState('120');
+  const [heightValue, setHeightValue] = useState('90');
+
+  const updateFlexibleDimension = (dimension: 'widthCm' | 'heightCm', raw: string) => {
+    // Dejamos escribir números enteros o decimales con punto/coma sin pelear con el usuario.
+    if (raw && !/^\d*(?:[.,]\d*)?$/.test(raw)) return;
+
+    if (dimension === 'widthCm') setWidthValue(raw);
+    else setHeightValue(raw);
+
+    setInput((current) => ({
+      ...current,
+      [dimension]: flexibleDimensionToCm(raw),
+    }));
+  };
 
   const result = useMemo(() => {
     const baseQuote = calculateQuote(input);
@@ -68,25 +104,27 @@ export default function CustomMeasurements({ onSendToAI }: CustomMeasurementsPro
             </h3>
 
             <div className="mt-6 grid grid-cols-2 gap-4">
-              <Field label="Ancho (cm)">
+              <Field label="Ancho (cm o m)">
                 <input
-                  type="number"
-                  min={10}
-                  max={600}
-                  value={input.widthCm}
-                  onChange={(e) => setInput({ ...input, widthCm: Number(e.target.value) })}
+                  type="text"
+                  inputMode="decimal"
+                  value={widthValue}
+                  onChange={(e) => updateFlexibleDimension('widthCm', e.target.value)}
                   className="input-dark"
+                  aria-label="Ancho en centímetros o metros"
                 />
+                <span className="mt-1 block text-[10px] text-white/45">100 o 1.00 = 1 metro</span>
               </Field>
-              <Field label="Alto (cm)">
+              <Field label="Alto (cm o m)">
                 <input
-                  type="number"
-                  min={10}
-                  max={600}
-                  value={input.heightCm}
-                  onChange={(e) => setInput({ ...input, heightCm: Number(e.target.value) })}
+                  type="text"
+                  inputMode="decimal"
+                  value={heightValue}
+                  onChange={(e) => updateFlexibleDimension('heightCm', e.target.value)}
                   className="input-dark"
+                  aria-label="Alto en centímetros o metros"
                 />
+                <span className="mt-1 block text-[10px] text-white/45">120 o 1.20 = 1.20 metros</span>
               </Field>
               <Field label="Tipo de vidrio">
                 <select value={input.glassType} onChange={(e) => setInput({ ...input, glassType: e.target.value as GlassType })} className="input-dark">
@@ -145,14 +183,14 @@ export default function CustomMeasurements({ onSendToAI }: CustomMeasurementsPro
               <Row label="Área calculada" value={`${result.areaM2} m²`} />
               <Row label="Precio por m²" value={formatCurrency(result.pricePerM2)} />
               <Row label="Costo del vidrio" value={formatCurrency(result.glassCost)} />
-              <Row label="Costo del marco" value={formatCurrency(result.frameCost)} />
-              <Row label="Instalación" value={formatCurrency(result.installationCost)} />
+              <Row label="Costo del marco" value={result.frameCost > 0 ? formatCurrency(result.frameCost) : "Pendiente"} />
+              <Row label="Instalación" value="Gratis" />
               {input.quantity > 1 && <Row label={`Subtotal x${input.quantity}`} value={formatCurrency(result.subtotal)} />}
             </div>
             <div className="mt-5 rounded-2xl bg-gradient-to-br from-sky-500 to-sky-700 p-5 text-white shadow-lg shadow-sky-500/30">
               <p className="text-xs uppercase tracking-wide text-white/70">Total aproximado</p>
               <p className="mt-1 font-display text-3xl font-extrabold">{formatCurrency(result.total)}</p>
-              <p className="mt-1 text-xs text-white/70">Incluye vidrio, marco e instalación · {result.leadTime}</p>
+              <p className="mt-1 text-xs text-white/70">Referencia de serie/producto · instalación gratis · marco/accesorios pueden requerir confirmación</p>
             </div>
           </div>
         </div>

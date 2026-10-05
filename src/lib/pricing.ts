@@ -23,7 +23,7 @@ export interface QuoteResult {
   leadTime: string;
   systemName?: string;
   systemPrice?: number;
-  systemUnit?: 'pie' | 'm';
+  systemUnit?: 'pie' | 'm²';
 }
 
 import { thicknessMultiplier } from '@/data/pricing';
@@ -39,8 +39,8 @@ export function calculateQuote(input: QuoteInput): QuoteResult {
   const glassCost = pricePerM2 * areaM2;
   const perimeterM = (2 * (input.widthCm + input.heightCm)) / 100;
   const frameCost = (frame.pricePerMeter ?? 0) * perimeterM;
-  const installationCost = Math.max(60, areaM2 * 35);
-  const subtotal = glassCost + frameCost + installationCost;
+  const installationCost = 0;
+  const subtotal = glassCost + frameCost;
   const total = subtotal * input.quantity;
 
   return {
