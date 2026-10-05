@@ -64,18 +64,18 @@ export default function FloatingWhatsApp({
   const whatsappLink = getWhatsAppLink();
 
   return (
-    <div className="fixed bottom-5 right-5 z-40 flex flex-col items-end gap-3">
+    <div className="fixed bottom-4 right-4 z-40 flex flex-col items-end gap-2.5 sm:bottom-6 sm:right-6">
       <button
         onClick={onOpenAI}
-        className="group flex items-center gap-2 rounded-full bg-gradient-to-r from-ink-800 to-ink-900 px-4 py-3 text-sm font-semibold text-white shadow-xl shadow-ink-900/30 transition-all hover:-translate-y-0.5 hover:shadow-2xl"
+        className="group relative flex h-14 items-center gap-2.5 rounded-full bg-gradient-to-r from-ink-800 to-ink-950 px-3.5 pr-4 text-sm font-semibold text-white shadow-xl shadow-ink-900/25 ring-1 ring-white/10 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl hover:shadow-ink-900/30"
       >
-        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20">
-          <Bot className="h-4 w-4" />
+        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/15 transition-transform duration-300 group-hover:rotate-3 group-hover:scale-105">
+          <Bot className="h-4.5 w-4.5" />
         </span>
 
         <span className="hidden sm:inline">Zhaid IA</span>
 
-        <span className="absolute right-1 top-1 h-2.5 w-2.5 animate-pulse rounded-full bg-sky-300" />
+        <span className="absolute right-1.5 top-1.5 h-2.5 w-2.5 animate-pulse rounded-full bg-sky-300 ring-2 ring-ink-900" />
       </button>
 
       <a
@@ -89,7 +89,7 @@ export default function FloatingWhatsApp({
         }}
         target="_blank"
         rel="noreferrer"
-        className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-white shadow-xl shadow-emerald-500/40 transition-all hover:-translate-y-0.5 hover:bg-emerald-600"
+        className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-white shadow-xl shadow-emerald-500/30 ring-4 ring-white/80 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-emerald-600 hover:shadow-2xl hover:shadow-emerald-500/35"
         aria-label="WhatsApp"
       >
         <FaWhatsapp className="h-9 w-9" />

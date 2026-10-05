@@ -36,7 +36,7 @@ export default function Navbar({ onQuoteClick }: NavbarProps) {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        scrolled ? 'bg-white/70 backdrop-blur-xl shadow-lg shadow-ink-900/5' : 'bg-transparent'
+        scrolled ? 'border-b border-white/70 bg-white/85 backdrop-blur-xl shadow-lg shadow-ink-900/5' : 'bg-transparent'
       }`}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
@@ -44,7 +44,7 @@ export default function Navbar({ onQuoteClick }: NavbarProps) {
           <img
            src={company.logo}
            alt={company.name}
-           className="h-10 w-24 object-contain rounded-lg bg-white shadow-lg sm:h-12 sm:w-32"
+           className="h-10 w-24 rounded-xl bg-white object-contain shadow-lg ring-1 ring-white/70 transition-transform duration-300 hover:scale-[1.02] sm:h-12 sm:w-32"
 />
           <span className={`hidden font-display text-lg font-extrabold tracking-tight transition-colors sm:inline ${scrolled ? 'text-ink-900' : 'text-white'}`}>
             {company.name}
@@ -56,8 +56,8 @@ export default function Navbar({ onQuoteClick }: NavbarProps) {
             <a
               key={l.href}
               href={l.href}
-              className={`rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${
-                scrolled ? 'text-ink-600 hover:bg-sky-50 hover:text-sky-700' : 'text-white/90 hover:bg-white/15 hover:text-white'
+              className={`relative rounded-full px-3 py-1.5 text-sm font-medium transition-all duration-300 ${
+                scrolled ? 'text-ink-600 hover:-translate-y-0.5 hover:bg-sky-50 hover:text-sky-700' : 'text-white/90 hover:-translate-y-0.5 hover:bg-white/15 hover:text-white'
               }`}
             >
               {l.label}
@@ -66,7 +66,7 @@ export default function Navbar({ onQuoteClick }: NavbarProps) {
         </div>
 
         <div className="flex items-center gap-2">
-          <a href={whatsappLink} target="_blank" rel="noreferrer" className="hidden btn-whatsapp !px-4 !py-2.5 text-xs sm:inline-flex">
+          <a href={whatsappLink} target="_blank" rel="noreferrer" className="hidden btn-whatsapp !px-4 !py-2.5 text-xs ring-1 ring-emerald-400/20 sm:inline-flex">
             <MessageCircle className="h-4 w-4" /> Cotizar por WhatsApp
           </a>
           <button
